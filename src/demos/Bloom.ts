@@ -1,15 +1,14 @@
 import Canvas from "geode/lib/graphics/Canvas";
 import Color, { rgba, rgb } from "geode/lib/graphics/Color";
-import Vector from "geode/lib/math/Vector";
 import { getImage } from "geode/lib/assets";
 
-export default class Game {
+export default class Bloom {
 
     canvas: Canvas
 
-    static instance: Game
+    static instance: Bloom
     constructor() {
-        Game.instance = this
+        Bloom.instance = this
         this.canvas = new Canvas( "canvas" )
         addEventListener( "keyup", e => this.keyup( e ) )
     }
