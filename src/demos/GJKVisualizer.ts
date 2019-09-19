@@ -57,7 +57,7 @@ export default class GJKVisualizer {
 
         let support = ( d: Vector ) => {
             let squareSupport = this.polygonSupport( vertices, d )
-            let circleSupport = this.ellipseSupport( 200, 200, d )
+            let circleSupport = this.ellipseSupport( 50, 50, d )
             return squareSupport.add( circleSupport ).add( Input.mouse ).subtract( canvas.dimensions.half )
         }
 
@@ -81,7 +81,7 @@ export default class GJKVisualizer {
         canvas.stroke()
 
         if ( c )
-            canvas.circle( 0, 0, 2 ).fillStyle( Color.yellow ).fill()
+            canvas.circle( 0, 0, 2 ).fillStyle( Color.cyan ).fill()
         else
             canvas.circle( 0, 0, 2 ).fillStyle( Color.red ).fill()
     }
