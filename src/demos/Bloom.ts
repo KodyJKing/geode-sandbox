@@ -1,6 +1,6 @@
-import Canvas from "geode/lib/graphics/Canvas";
-import Color, { rgba, rgb } from "geode/lib/graphics/Color";
-import { getImage } from "geode/lib/assets";
+import Canvas from "geode/lib/graphics/Canvas"
+import Color, { rgba, rgb } from "geode/lib/graphics/Color"
+import { getImage } from "geode/lib/assets"
 
 export default class Bloom {
 
