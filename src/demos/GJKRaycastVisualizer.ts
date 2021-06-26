@@ -1,7 +1,7 @@
 import Canvas from "geode/lib/graphics/Canvas"
 import Color, { rgba, rgb } from "geode/lib/graphics/Color"
-import Vector, { vector } from "geode/lib/math/Vector"
-import GJK from "geode/lib/collision/GJK"
+import Vector2, { vector } from "geode/lib/math/Vector2"
+import GJK from "geode/lib/math/collision/GJK"
 import Input from "geode/lib/Input"
 import { argmax } from "geode/lib/util"
 import Polygon from "geode/lib/math/geometry/Polygon"
@@ -22,11 +22,11 @@ export default class GJKRaycastVisualizer {
         this.render()
     }
 
-    supportPath(canvas: Canvas, support: (v: Vector) => Vector, steps = 100) {
-        let points: Vector[] = []
+    supportPath(canvas: Canvas, support: (v: Vector2) => Vector2, steps = 100) {
+        let points: Vector2[] = []
         for (let i = 0; i < steps; i++) {
             let theta = Math.PI * 2 * i / steps
-            let heading = Vector.polar(theta, 1)
+            let heading = Vector2.polar(theta, 1)
             points.push(support(heading))
         }
         canvas.vpath(points)
@@ -44,7 +44,7 @@ export default class GJKRaycastVisualizer {
 
         canvas.translateToCenter()
 
-        let mouse = Input.mouse.subtract(canvas.dimensions.half)
+        let mouse = Input.mouse.subtract(canvas.dimensions.half())
         if (Input.buttons.Mouse0)
             this.polyPos = mouse
 
@@ -55,7 +55,7 @@ export default class GJKRaycastVisualizer {
         canvas.strokeStyle(Color.white).stroke()
 
         let angle = Math.sin(performance.now() / 2000) + GMath.TAU / 8
-        let ray = new Ray(Vector.ZERO, Vector.polar(angle, 1))
+        let ray = new Ray(Vector2.ZERO, Vector2.polar(angle, 1))
         let rayLength = 2000
 
         let line = GJKRaycast(support, ray.heading, 10)
@@ -65,7 +65,7 @@ export default class GJKRaycastVisualizer {
                 rayLength = time
                 let hitPoint = ray.pointAt(time)
                 // canvas.vline( line.a, line.b ).strokeStyle( Color.green ).stroke()
-                let normal = line.leftNormal.unit
+                let normal = line.leftNormal.unit()
                 canvas.vline(hitPoint, hitPoint.add(normal.multiply(40))).strokeStyle(Color.green).stroke()
             }
         }

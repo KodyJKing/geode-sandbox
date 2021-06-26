@@ -1,7 +1,7 @@
 import Canvas from "geode/lib/graphics/Canvas"
 import Color, { rgba, rgb } from "geode/lib/graphics/Color"
-import Vector, { vector } from "geode/lib/math/Vector"
-import GJK from "geode/lib/collision/GJK"
+import Vector2, { vector } from "geode/lib/math/Vector2"
+import GJK from "geode/lib/math/collision/GJK"
 import Input from "geode/lib/Input"
 import { argmax } from "geode/lib/util"
 
@@ -20,32 +20,32 @@ export default class GJKVisualizer {
 
     // ---- Rendering ----
 
-    supportPath( canvas: Canvas, support: ( v: Vector ) => Vector, steps = 100 ) {
-        let points: Vector[] = []
+    supportPath( canvas: Canvas, support: ( v: Vector2 ) => Vector2, steps = 100 ) {
+        let points: Vector2[] = []
         for ( let i = 0; i < steps; i++ ) {
             let theta = Math.PI * 2 * i / steps
-            let heading = Vector.polar( theta, 1 )
+            let heading = Vector2.polar( theta, 1 )
             points.push( support( heading ) )
         }
         canvas.vpath( points )
         canvas.context.closePath()
     }
 
-    ellipseSupport( a: number, b: number, d: Vector ) {
+    ellipseSupport( a: number, b: number, d: Vector2 ) {
         let a2 = a * d.x
         let b2 = b * d.y
         let p = Math.atan2( b2, a2 )
-        return Vector.polar( p, 1 ).stretch( a, b )
+        return Vector2.polar( p, 1 ).stretch( a, b )
     }
 
     regularPolygon( sides = 3, radius = 100 ) {
-        let vertices: Vector[] = []
+        let vertices: Vector2[] = []
         for ( let i = 0; i < sides; i++ )
-            vertices.push( Vector.polar( Math.PI * 2 / sides * i, 1 ).multiply( radius ) )
+            vertices.push( Vector2.polar( Math.PI * 2 / sides * i, 1 ).multiply( radius ) )
         return vertices
     }
 
-    polygonSupport( vertices: Vector[], d: Vector ) {
+    polygonSupport( vertices: Vector2[], d: Vector2 ) {
         return argmax( vertices, v => v.dot( d ) ).bestArg
     }
 
@@ -55,13 +55,13 @@ export default class GJKVisualizer {
 
         let vertices = this.regularPolygon( 6, 100 )
 
-        let support = ( d: Vector ) => {
+        let support = ( d: Vector2 ) => {
             let squareSupport = this.polygonSupport( vertices, d )
             let circleSupport = this.ellipseSupport( 50, 50, d )
-            return squareSupport.add( circleSupport ).add( Input.mouse ).subtract( canvas.dimensions.half )
+            return squareSupport.add( circleSupport ).add( Input.mouse ).subtract( canvas.dimensions.half() )
         }
 
-        let simplices: Vector[][] = []
+        let simplices: Vector2[][] = []
         let c = GJK( support, simplices )
 
         let i = 0

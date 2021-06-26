@@ -5,3 +5,4 @@ node_modules
 app.yaml
 .gcloudignore
 .npmrc
+.parcel-cache

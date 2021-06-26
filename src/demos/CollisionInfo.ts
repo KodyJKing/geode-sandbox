@@ -1,7 +1,7 @@
 import Canvas from "geode/lib/graphics/Canvas"
 import Color, { rgba, rgb } from "geode/lib/graphics/Color"
-import Vector, { vector } from "geode/lib/math/Vector"
-import GJK from "geode/lib/collision/GJK"
+import Vector2, { vector } from "geode/lib/math/Vector2"
+import GJK from "geode/lib/math/collision/GJK"
 import Input from "geode/lib/Input"
 import { argmax } from "geode/lib/util"
 import Polygon from "geode/lib/math/geometry/Polygon"
@@ -12,11 +12,11 @@ import GMath from "geode/lib/math/GMath"
 import IBody from "geode/lib/math/collision/IBody"
 import { collisionInfo } from "geode/lib/math/collision/collision"
 
-function supportPath(canvas: Canvas, support: (v: Vector) => Vector, steps = 100) {
-    let points: Vector[] = []
+function supportPath(canvas: Canvas, support: (v: Vector2) => Vector2, steps = 100) {
+    let points: Vector2[] = []
     for (let i = 0; i < steps; i++) {
         let theta = Math.PI * 2 * i / steps
-        let heading = Vector.polar(theta, 1)
+        let heading = Vector2.polar(theta, 1)
         points.push(support(heading))
     }
     canvas.vpath(points)
@@ -50,15 +50,15 @@ export default class CollisionInfo {
 
         canvas.translateToCenter()
 
-        let mouse = Input.mouse.subtract(canvas.dimensions.half)
+        let mouse = Input.mouse.subtract(canvas.dimensions.half())
         if (Input.buttons.Mouse0)
             b.position = mouse
 
-        // let mdSupport = (p: Vector) => a.support(p).subtract(b.support(p.negate))
+        // let mdSupport = (p: Vector2) => a.support(p).subtract(b.support(p.negate))
         // supportPath(canvas, mdSupport)
         // canvas.strokeStyle(Color.gray).stroke()
 
-        // a.velocity = Vector.polar(Math.sin(performance.now() / 2000), 20)
+        // a.velocity = Vector2.polar(Math.sin(performance.now() / 2000), 20)
         {
             (b.position as any).y = 180 * Math.sin(performance.now() / 1000)
         }
@@ -91,8 +91,8 @@ export default class CollisionInfo {
 }
 
 class Body implements IBody {
-    position: Vector
-    velocity: Vector
+    position: Vector2
+    velocity: Vector2
     shape: Polygon
 
     constructor(sides, radius, position, velocity) {
@@ -101,7 +101,7 @@ class Body implements IBody {
         this.velocity = velocity
     }
 
-    support(position: Vector) {
+    support(position: Vector2) {
         return this.shape.support(position).add(this.position)
     }
 
