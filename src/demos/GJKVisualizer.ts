@@ -1,9 +1,9 @@
-import Canvas from "geode/lib/graphics/Canvas"
-import Color, { rgba, rgb } from "geode/lib/graphics/Color"
-import Vector2, { vector } from "geode/lib/math/Vector2"
-import GJK from "geode/lib/math/collision/GJK"
-import Input from "geode/lib/Input"
-import { argmax } from "geode/lib/util"
+import Canvas from "geode/src/graphics/Canvas"
+import Color, { rgba, rgb, Colors } from "geode/src/graphics/Color"
+import Vector2, { vector } from "geode/src/math/Vector2"
+import GJK from "geode/src/math/collision/GJK"
+import Input from "geode/src/Input"
+import { argmax } from "geode/src/util"
 
 export default class GJKVisualizer {
 
@@ -51,7 +51,7 @@ export default class GJKVisualizer {
 
     render() {
         let { canvas } = this
-        canvas.fitWindow( 2 ).translateToCenter().strokeStyle( Color.white ).lineWidth( 1 )
+        canvas.fitWindow( 2 ).translateToCenter().strokeStyle( Colors.white ).lineWidth( 1 )
 
         let vertices = this.regularPolygon( 6, 100 )
 
@@ -81,8 +81,8 @@ export default class GJKVisualizer {
         canvas.stroke()
 
         if ( c )
-            canvas.circle( 0, 0, 2 ).fillStyle( Color.cyan ).fill()
+            canvas.circle( 0, 0, 2 ).fillStyle( Colors.cyan ).fill()
         else
-            canvas.circle( 0, 0, 2 ).fillStyle( Color.red ).fill()
+            canvas.circle( 0, 0, 2 ).fillStyle( Colors.red ).fill()
     }
 }

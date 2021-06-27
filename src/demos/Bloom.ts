@@ -1,6 +1,6 @@
-import Canvas from "geode/lib/graphics/Canvas"
-import Color, { rgba, rgb } from "geode/lib/graphics/Color"
-import { getImage } from "geode/lib/assets"
+import Canvas from "geode/src/graphics/Canvas"
+import Color, { rgba, rgb, Colors } from "geode/src/graphics/Color"
+import { getImage } from "geode/src/assets"
 
 export default class Bloom {
 
@@ -28,7 +28,7 @@ export default class Bloom {
         let canvas = new Canvas( innerCanvas )
         canvas.fitWindow().smooth( false )
         canvas.background( "#262838" )
-        canvas.circle(100, 100, 50).fillStyle(Color.white).fill()
+        canvas.circle(100, 100, 50).fillStyle(Colors.white).fill()
         canvas.composition( "destination-out" ).image( forground )
         return innerCanvas.transferToImageBitmap()
     }

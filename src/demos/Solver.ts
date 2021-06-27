@@ -23,7 +23,7 @@ function supportPath(canvas: Canvas, support: (v: Vector2) => Vector2, steps = 1
     canvas.context.closePath()
 }
 
-export default class CollisionInfo {
+export default class Solver {
 
     canvas: Canvas
     a: Body

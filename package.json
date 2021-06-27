@@ -7,12 +7,12 @@
     "scripts": {
         "dev": "yarn install && yarn build && yarn link geode",
         "clean": "rm -f yarn.lock && rm -rf lib && rm -rf node_modules",
-        "watch": "parcel www/index.html"
+        "watch": "parcel index.html"
     },
     "private": true,
     "devDependencies": {
-        "parcel": "^2.0.0-beta.2"
+        "parcel-bundler": "^1.12.5",
+        "typescript": "^4.3.4"
     },
-    "dependencies": {
-    }
+    "dependencies": {}
 }

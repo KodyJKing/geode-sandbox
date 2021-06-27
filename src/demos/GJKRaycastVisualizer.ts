@@ -1,14 +1,14 @@
-import Canvas from "geode/lib/graphics/Canvas"
-import Color, { rgba, rgb } from "geode/lib/graphics/Color"
-import Vector2, { vector } from "geode/lib/math/Vector2"
-import GJK from "geode/lib/math/collision/GJK"
-import Input from "geode/lib/Input"
-import { argmax } from "geode/lib/util"
-import Polygon from "geode/lib/math/geometry/Polygon"
-import Ray from "geode/lib/math/geometry/Ray"
-import GJKRaycast from "geode/lib/math/collision/GJKRaycast"
-import { GameClock } from "geode/lib/Clock"
-import GMath from "geode/lib/math/GMath"
+import Canvas from "geode/src/graphics/Canvas"
+import Color, { rgba, rgb, Colors } from "geode/src/graphics/Color"
+import Vector2, { vector } from "geode/src/math/Vector2"
+import GJK from "geode/src/math/collision/GJK"
+import Input from "geode/src/Input"
+import { argmax } from "geode/src/util"
+import Polygon from "geode/src/math/geometry/Polygon"
+import Ray from "geode/src/math/geometry/Ray"
+import GJKRaycast from "geode/src/math/collision/GJKRaycast"
+import { GameClock } from "geode/src/Clock"
+import GMath from "geode/src/math/GMath"
 
 export default class GJKRaycastVisualizer {
 
@@ -40,7 +40,7 @@ export default class GJKRaycastVisualizer {
 
         // let fps = 1000 / GameClock.dt
         // console.log( fps )
-        // canvas.fillStyle( Color.white ).text( "FPS: " + fps.toFixed( 2 ), 0, 20, 200, "30px courier" )
+        // canvas.fillStyle( Colors.white ).text( "FPS: " + fps.toFixed( 2 ), 0, 20, 200, "30px courier" )
 
         canvas.translateToCenter()
 
@@ -50,9 +50,9 @@ export default class GJKRaycastVisualizer {
 
         let polygon = Polygon.regular(6, 100)
         polygon.position = this.polyPos
-        let support = (v) => polygon.support(v).add(v.unit.multiply(100))
+        let support = (v) => polygon.support(v).add(v.unit().multiply(100))
         this.supportPath(canvas, support)
-        canvas.strokeStyle(Color.white).stroke()
+        canvas.strokeStyle(Colors.white).stroke()
 
         let angle = Math.sin(performance.now() / 2000) + GMath.TAU / 8
         let ray = new Ray(Vector2.ZERO, Vector2.polar(angle, 1))
@@ -64,16 +64,16 @@ export default class GJKRaycastVisualizer {
             if (time > 0) {
                 rayLength = time
                 let hitPoint = ray.pointAt(time)
-                // canvas.vline( line.a, line.b ).strokeStyle( Color.green ).stroke()
+                // canvas.vline( line.a, line.b ).strokeStyle( Colors.green ).stroke()
                 let normal = line.leftNormal.unit()
-                canvas.vline(hitPoint, hitPoint.add(normal.multiply(40))).strokeStyle(Color.green).stroke()
+                canvas.vline(hitPoint, hitPoint.add(normal.multiply(40))).strokeStyle(Colors.green).stroke()
             }
         }
 
-        canvas.vline(ray.point, ray.pointAt(rayLength)).strokeStyle(Color.red).stroke()
-        canvas.vcircle(ray.pointAt(rayLength), 2).fillStyle(Color.red).fill()
+        canvas.vline(ray.point, ray.pointAt(rayLength)).strokeStyle(Colors.red).stroke()
+        canvas.vcircle(ray.pointAt(rayLength), 2).fillStyle(Colors.red).fill()
 
-        canvas.circle(0, 0, 2).fillStyle(Color.white).fill()
-        canvas.vcircle(this.polyPos, 2).fillStyle(Color.white).fill()
+        canvas.circle(0, 0, 2).fillStyle(Colors.white).fill()
+        canvas.vcircle(this.polyPos, 2).fillStyle(Colors.white).fill()
     }
 }

@@ -6,3 +6,5 @@ app.yaml
 .gcloudignore
 .npmrc
 .parcel-cache
+.cache
+dist
